@@ -3,6 +3,10 @@ import img from "../../assets/image/register.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import axios from "axios";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const Register = () => {
     const [eye, setEye] = useState(false);
     const [eyeTwo, setEyeTwo] = useState(false);
@@ -12,7 +16,21 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+    const imageFile = { image: data.profilePicture[0] }
+    const res = await axios.post(image_hosting_api, imageFile, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    
+
+    console.log(res.data);
+    // console.log(res);
+
+  } 
   console.log(watch("district"));
   const handelSeePass = () => {
     setEye(!eye);
@@ -127,10 +145,18 @@ const Register = () => {
                   type={eye ? "text" : "password"}
                   name="password"
                   placeholder="password"
-                  {...register("Password",{ required: true })}
+                  {...register("Password",{ required: true ,minLength: 6, 
+                    maxLength: 20,
+                    pattern:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/
+                  })}
                   className="input input-bordered"
-                  required
+                  
                 />
+                {errors.Password?.type === "required" && <span className="text-red-500">Password is required</span>}
+              {errors.Password?.type === "minLength" && <span className="text-red-500">Password must be 6 characters</span>}
+              {errors.Password?.type === "maxLength" && <span className="text-red-500">Password must be less than 20 characters</span>}
+              {errors.Password?.type === "pattern" && <span className="text-red-500">Password must have at least one uppercase, one lowercase, one number and one special character</span>}
+
                 <Link
                   onClick={handelSeePass}
                   className="text-2xl absolute right-3 top-[48px]"
@@ -145,11 +171,19 @@ const Register = () => {
                 <input
                   type={eyeTwo ? "text" : "password"}
                   name="password"
-                  placeholder="password"
-                  {...register("confirmPassword",{ required: true })}
+                  placeholder="Confirm password"
+                  {...register("confirmPassword",{ required: true, 
+                    minLength: 6, 
+                    maxLength: 20,
+                    pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/,
+                 })}
                   className="input input-bordered"
-                  required
+                  
                 />
+                {errors.confirmPassword?.type === "required" && <span className="text-red-500">Password is required</span>}
+              {errors.confirmPassword?.type === "minLength" && <span className="text-red-500">Password must be 6 characters</span>}
+              {errors.confirmPassword?.type === "maxLength" && <span className="text-red-500">Password must be less than or equal to 20 characters </span>}
+              {errors.confirmPassword?.type === "pattern" && <span className="text-red-500">Password must be at least one uppercase, one lowercase, one number and one special character</span>}
                 <Link
                   onClick={handelSeePassTwo}
                   className="text-2xl absolute right-3 top-[48px]"
