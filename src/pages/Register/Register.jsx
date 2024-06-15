@@ -1,20 +1,41 @@
 import { useForm } from "react-hook-form";
 import img from "../../assets/image/register.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { updateProfile } from "firebase/auth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const Register = () => {
     const { createUser, setUpdate, update } = useAuth();
+    const axiosPublic = useAxiosPublic();
     const location = useLocation();
     const navigate = useNavigate();
     const [eye, setEye] = useState(false);
     const [eyeTwo, setEyeTwo] = useState(false);
+
+    const { data: districts = [] } = useQuery({
+      queryKey: ["districts"],
+      queryFn: async () => {
+        const res = await axiosPublic.get("/districts");
+        return res.data;
+      },
+    });
+    const { data: upazilas  = [], refetch } = useQuery({
+      queryKey: ["upazilas"],
+      queryFn: async () => {
+        const res = await axiosPublic.get(`/upazilas?id=${watch("district")}`);
+        return res.data;
+      },
+    });
+
+    console.log(upazilas);
+
   const {
     register,
     handleSubmit,
@@ -55,6 +76,9 @@ const Register = () => {
 
   } 
   console.log(watch("district"));
+  useEffect(() => {
+    refetch();
+  }, [watch("district")])
   const handelSeePass = () => {
     setEye(!eye);
   };
@@ -124,11 +148,10 @@ const Register = () => {
                       <option value="Selected district">
                         Select district
                       </option>
-                      <option>Dhaka</option>
-                      <option>Chittagong</option>
-                      <option>Rajshahi</option>
-                      <option>Rangpur</option>
-                      <option>Sylhet</option>
+                      {
+                        districts?.map(district => <option key={district._id} value={district.id}>{district.name}</option>)
+                      }
+                      
                     </select>
                   </div>
                   <div className="form-control w-1/2">
@@ -137,13 +160,15 @@ const Register = () => {
                     </label>
                     <select defaultValue={"Selected Upazila"} {...register("upazila",{ required: true })} className="select select-bordered w-full ">
                       <option value="Selected Upazila">
-                        Select Upazila
+                        {
+                          watch("district") === "Selected district" ? "Select district first" : "Select Upazila" 
+                        }
+                        
                       </option>
-                      <option>Dhaka</option>
-                      <option>Chittagong</option>
-                      <option>Rajshahi</option>
-                      <option>Rangpur</option>
-                      <option>Sylhet</option>
+                      { 
+                        upazilas?.map(upazila => <option key={upazila._id} value={upazila.id}>{upazila.name}</option>)
+                      }
+
                     </select>
                   </div>
                 </div>
