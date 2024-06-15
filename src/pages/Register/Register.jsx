@@ -1,13 +1,18 @@
 import { useForm } from "react-hook-form";
 import img from "../../assets/image/register.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import { updateProfile } from "firebase/auth";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const Register = () => {
+    const { createUser, setUpdate, update } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
     const [eye, setEye] = useState(false);
     const [eyeTwo, setEyeTwo] = useState(false);
   const {
@@ -25,7 +30,25 @@ const Register = () => {
       }
     });
 
-    
+    createUser(data.email, data.Password)
+      .then((result) => {
+        console.log(result.user);
+        updateProfile(result.user, {
+          displayName: data.name,
+          photoURL: res.data.data.display_url          ,
+        })
+          .then(() => {
+            setUpdate(!update);
+          })
+          .catch();
+          //reset the form
+        navigate(location?.state ? location.state : "/");
+        // toast.success("Registered Successful!");
+      })
+      .catch((error) => {
+        console.error(error);
+        // toast.error("Sign Up Failed!");
+      });
 
     console.log(res.data);
     // console.log(res);
