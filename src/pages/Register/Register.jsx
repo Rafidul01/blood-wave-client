@@ -210,7 +210,7 @@ const Register = () => {
                           : "Select Upazila"}
                       </option>
                       {upazilas?.map((upazila) => (
-                        <option key={upazila._id} value={upazila.id}>
+                        <option key={upazila._id} value={upazila.zzz}>
                           {upazila.name}
                         </option>
                       ))}
