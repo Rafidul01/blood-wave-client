@@ -166,7 +166,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <label tabIndex={0}>
                 <div className="w-6 md:w-8 mr-2 md:mr-4 rounded-full ring ring-blood ring-offset-base-100 ring-offset-2 btn btn-ghost btn-circle min-h-0 h-6 md:h-8 ">
-                  <img src={user.photoURL || logo} />
+                  <img className="rounded-full" src={user.photoURL || logo} />
                 </div>
               </label>
               <ul

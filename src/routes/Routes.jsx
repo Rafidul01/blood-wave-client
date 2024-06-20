@@ -3,6 +3,8 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home/Home";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
+import DashboardLayout from "../layouts/DashboardLayout";
+import Profile from "../pages/Profile/Profile";
 
 
 const router = createBrowserRouter([
@@ -25,6 +27,16 @@ const router = createBrowserRouter([
 
     ]
   },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout/>,
+    children: [
+      {
+        path: "profile",
+        element: <Profile/>
+      }
+    ]
+  }
 ]);
 
 export default router;

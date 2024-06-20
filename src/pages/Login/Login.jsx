@@ -46,7 +46,7 @@ const Login = () => {
             <figure className="object-contain object-center lg:w-1/2">
               <img src={img} alt="Album" />
             </figure>
-            <div className="card-body lg:w-1/2 p-4">
+            <div className="card-body lg:w-1/2 p-4 ">
               <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="form-control">
                   <label className="label">
