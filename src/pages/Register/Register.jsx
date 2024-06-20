@@ -34,7 +34,7 @@ const Register = () => {
       },
     });
 
-    console.log(upazilas);
+    // console.log(upazilas);
 
   const {
     register,
@@ -71,11 +71,11 @@ const Register = () => {
         // toast.error("Sign Up Failed!");
       });
 
-    console.log(res.data);
+    // console.log(res.data);
     // console.log(res);
 
   } 
-  console.log(watch("district"));
+  // console.log(watch("district"));
   useEffect(() => {
     refetch();
   }, [watch("district")])
@@ -243,6 +243,7 @@ const Register = () => {
                   <button className="btn btn-primary bg-error border-none text-white hover:bg-blood">Register</button>
                 </div>
               </form>
+              <p className="text-center">Already have an account? <Link className="text-error" to="/login">Login</Link></p>
             </div>
           </div>
         </div>

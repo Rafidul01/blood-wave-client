@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/image/logo.png";
+import useAuth from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
+// import useAxiosPublic from "../../../hooks/useAxiosPublic";
 const Navbar = () => {
+  const { user, logOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  // const axiosPublic = useAxiosPublic();
   // test user
-  const user = false;
   useEffect(() => {
     localStorage.setItem("theme", theme);
     const localTheme = localStorage.getItem("theme");
@@ -32,6 +36,18 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.success("Loged out Successful!");
+        // axiosPublic.post("/logout", { user_email: user.email })
+        //   .then()
+      })
+      .catch(() => {
+        toast.success("Logout failed");
+      });
+  };
+
 
   const Links = (
     <>
@@ -170,7 +186,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="btn bg-blood  text-white font-lato rounded-xl min-h-0 h-10 md:min-h-[3rem] md:h-[3rem]">
+                  <NavLink onClick={handleLogOut} className="btn bg-blood  text-white font-lato rounded-xl min-h-0 h-10 md:min-h-[3rem] md:h-[3rem]">
                     Logout
                   </NavLink>
                 </li>
