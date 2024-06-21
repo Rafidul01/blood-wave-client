@@ -119,7 +119,7 @@ const DashboardHome = () => {
                   </td>
                       <td>{donorRequest.donorInformation || "N/A"}</td>
                       <td>
-                        <button className="btn btn-sm bg-error text-white"> <FaEdit></FaEdit></button>
+                        <Link to={`/dashboard/donation-request-edit/${donorRequest._id}`}  className="btn btn-sm bg-error text-white"> <FaEdit></FaEdit></Link>
                       </td>
                       <td>
                         <button onClick={() => handleDelete(donorRequest._id)}  className="btn btn-sm text-error bg-transparent border-none shadow-none"><FaTrash></FaTrash></button>

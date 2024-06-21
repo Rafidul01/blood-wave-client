@@ -138,10 +138,10 @@ const MyDonationRequest = () => {
                     Email: {donorRequest.donorEmail}
                   </>}</td>
                   <td>
-                    <button className="btn btn-sm bg-error text-white">
+                    <Link to={`/dashboard/donation-request-edit/${donorRequest._id}`}  className="btn btn-sm bg-error text-white">
                       {" "}
                       <FaEdit></FaEdit>
-                    </button>
+                    </Link>
                   </td>
                   <td>
                     <button onClick={() => handleDelete(donorRequest._id)} className="btn btn-sm text-error bg-transparent border-none shadow-none">
