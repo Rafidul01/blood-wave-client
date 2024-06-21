@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCancelCircle } from "react-icons/im";
+import Swal from "sweetalert2";
 
 const MyDonationRequest = () => {
   const { user } = useAuth();
@@ -32,11 +33,31 @@ const MyDonationRequest = () => {
     
   };
 
+  const handleStatus = (id, status) => {
+    const donorInfo = {
+      status
+    }
+
+    axiosPrivate.patch(`/request/${id}`, donorInfo).then((res) => {
+      if (res.data.acknowledged) {
+        refetch();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Donation status updated Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    })
+
+  }
+
   if (isPending) {
     return <div>Loading...</div>;
   }
   return (
-    <div className="font-lato m-8 text-center ">
+    <div className="font-lato  text-center ">
       <select onChange={handleFilter} defaultValue={0} className="select select-secondary focus:outline-blood  focus:border-blood w-full max-w-xs uppercase my-4 md:my-8 border-blood text-blood">
         <option disabled value={0}>
           Filter By Status
@@ -58,6 +79,7 @@ const MyDonationRequest = () => {
               <th>Donation Date</th>
               <th>Donation Time</th>
               <th>Donation Status</th>
+              <th>Done /<br /> Cencle</th>
               <th>Donor Information</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -88,10 +110,13 @@ const MyDonationRequest = () => {
                     } uppercase font-bold`}
                   >
                     {donorRequest.status}
-                    {donorRequest.status === "pending" ? " (N/A)" : <>
-                      <button><TiTick></TiTick></button> 
-                      <button><ImCancelCircle /></button>
-                    </>}
+                    
+                  </td>
+                  <td className="text-center">
+                    {donorRequest.status === "inprogress" ? <>
+                    <button onClick={() => handleStatus(donorRequest._id, "done")} className="text-success text-xl"> <TiTick></TiTick> </button> <br />
+                    <button onClick={() => handleStatus(donorRequest._id, "canceled")} className="text-error text-xl"> <ImCancelCircle></ImCancelCircle> </button>
+                    </> : ""}
                   </td>
                   <td>  {donorRequest.status === "pending" ? "N/A" : <>
                     Name: {donorRequest.donorName} <br />
