@@ -1,5 +1,8 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink, Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const DashboardLayout = () => {
   const handleSidebar = () => {
@@ -18,7 +21,7 @@ const DashboardLayout = () => {
         >
           <GiHamburgerMenu className="w-6 h-6" />
         </label>
-        <div className="ml-10">
+        <div className="md:ml-5">
           <Outlet />
         </div>
       </div>
@@ -64,6 +67,7 @@ const DashboardLayout = () => {
           
         </ul>
       </div>
+      <ToastContainer  position="top-center"/>
     </div>
   );
 };

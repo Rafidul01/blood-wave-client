@@ -9,6 +9,7 @@ const MainLayout = () => {
             <Navbar/>
             <Outlet/>
             <ToastContainer  position="top-center"/>
+            
         </div>
     );
 };
