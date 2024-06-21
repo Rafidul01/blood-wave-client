@@ -53,6 +53,21 @@ const MyDonationRequest = () => {
 
   }
 
+  const handleDelete = (id) => {
+    axiosPrivate.delete(`/request/${id}`).then((res) => {
+      if (res.data.acknowledged) {
+        refetch();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Donation deleted Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    })
+  }
+
   if (isPending) {
     return <div>Loading...</div>;
   }
@@ -129,7 +144,7 @@ const MyDonationRequest = () => {
                     </button>
                   </td>
                   <td>
-                    <button className="btn btn-sm text-error bg-transparent border-none shadow-none">
+                    <button onClick={() => handleDelete(donorRequest._id)} className="btn btn-sm text-error bg-transparent border-none shadow-none">
                       <FaTrash></FaTrash>
                     </button>
                   </td>

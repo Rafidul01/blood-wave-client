@@ -21,7 +21,7 @@ const DashboardLayout = () => {
         >
           <GiHamburgerMenu className="w-6 h-6" />
         </label>
-        <div className="md:ml-5">
+        <div className="m-1">
           <Outlet />
         </div>
       </div>
