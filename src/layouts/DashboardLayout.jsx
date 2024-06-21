@@ -48,6 +48,7 @@ const DashboardLayout = () => {
                   : ""
               }
               to="/dashboard"
+              end
             >
               Home
             </NavLink>

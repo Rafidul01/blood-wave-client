@@ -33,7 +33,7 @@ const DashboardHome = () => {
       
       <div className="flex justify-center items-center m-16">
         <div>
-          <h1 className="text-xl  text-blood border-t-2 border-b-2 border-blood">
+          <h1 className=" text-xl md:text-3xl  text-blood border-t-2 border-b-2 border-blood">
             Welcome, <span className="uppercase">{currentUser.name}</span>!
           </h1>
         </div>
@@ -41,18 +41,16 @@ const DashboardHome = () => {
 
       {currentUser.role === "donor" && (
         <div className="md:mr-4">
-          <h1 className=" mt-8 text-xl text-blood border-t-2 border-b-2 border-blood text-center">
+          <h1 className=" mt-8 md:text-xl text-blood border-t-2 border-b-2 border-blood text-center">
             Your Recent Donations
           </h1>
 
-          
 
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
               <thead>
                 <tr>
-                  
                   <th>Recipient Name</th>
                   <th>Recipient Location</th>
                   <th>Donation Date</th>
@@ -74,7 +72,7 @@ const DashboardHome = () => {
                       <td>{donorRequest.district + ", " + donorRequest.upazila}</td>
                       <td>{donorRequest.date}</td>
                       <td>{donorRequest.time}</td>
-                      <td>{donorRequest.status}</td>
+                      <td className={`${donorRequest.status === "pending" ? "text-warning" : donorRequest.status === "done" ? "text-success" : donorRequest.status === "canceled" ? "text-error" : donorRequest.status === "inprogress" ? "text-info" : ""}`} >{donorRequest.status}</td>
                       <td>{donorRequest.donorInformation || "N/A"}</td>
                       <td>
                         <button className="btn btn-sm bg-error text-white"> <FaEdit></FaEdit></button>

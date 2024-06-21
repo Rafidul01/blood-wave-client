@@ -1,0 +1,119 @@
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { CiViewList } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+const MyDonationRequest = () => {
+  const { user } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+  const [filter, setFilter] = useState("");
+
+  const { data: donorRequests = [], isPending, refetch } = useQuery({
+    queryKey: ["donorRequests"],
+    queryFn: async () => {
+      const res = await axiosPrivate.get(`/requests?email=${user?.email}&status=${filter}`);
+      return res.data;
+    },
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [filter, refetch]);
+
+  const handleFilter = (e) => {
+
+    const status = e.target.value;
+    setFilter(status);
+    
+  };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div className="font-lato m-8 text-center ">
+      <select onChange={handleFilter} defaultValue={0} className="select select-secondary focus:outline-blood  focus:border-blood w-full max-w-xs uppercase my-4 md:my-8 border-blood text-blood">
+        <option disabled value={0}>
+          Filter By Status
+        </option>
+        <option>pending</option>
+        <option>inprogress</option>
+        <option>done</option>
+        <option>canceled</option>
+       
+      </select>
+
+      <div className="overflow-x-auto">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>Recipient Name</th>
+              <th>Recipient Location</th>
+              <th>Donation Date</th>
+              <th>Donation Time</th>
+              <th>Donation Status</th>
+              <th>Donor Information</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+            {donorRequests
+              .slice(0, donorRequests.length)
+              .map((donorRequest) => (
+                <tr key={donorRequest._id}>
+                  <td>{donorRequest.recipientName}</td>
+                  <td>{donorRequest.district + ", " + donorRequest.upazila}</td>
+                  <td>{donorRequest.date}</td>
+                  <td>{donorRequest.time}</td>
+                  <td
+                    className={`${
+                      donorRequest.status === "pending"
+                        ? "text-warning"
+                        : donorRequest.status === "done"
+                        ? "text-success"
+                        : donorRequest.status === "canceled"
+                        ? "text-error"
+                        : donorRequest.status === "inprogress"
+                        ? "text-info"
+                        : ""
+                    }`}
+                  >
+                    {donorRequest.status}
+                  </td>
+                  <td>{donorRequest.donorInformation || "N/A"}</td>
+                  <td>
+                    <button className="btn btn-sm bg-error text-white">
+                      {" "}
+                      <FaEdit></FaEdit>
+                    </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-sm text-error bg-transparent border-none shadow-none">
+                      <FaTrash></FaTrash>
+                    </button>
+                  </td>
+                  <td>
+                    <Link
+                      to={`/request/${donorRequest._id}`}
+                      className="btn btn-sm bg-error text-white "
+                    >
+                      <CiViewList></CiViewList>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default MyDonationRequest;
