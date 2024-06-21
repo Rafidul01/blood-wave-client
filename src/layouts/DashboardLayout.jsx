@@ -47,9 +47,9 @@ const DashboardLayout = () => {
                   ? "border-b-4 bg-transparent  border-white text-white font-bold "
                   : ""
               }
-              to="/dashboard/profile"
+              to="/dashboard"
             >
-              profile
+              Home
             </NavLink>
           </li>
           <li>
@@ -59,11 +59,12 @@ const DashboardLayout = () => {
                   ? "border-b-4 bg-transparent  border-white text-white font-bold "
                   : ""
               }
-              to="/home"
+              to="/dashboard/profile"
             >
-              Home
+              profile
             </NavLink>
           </li>
+          
           <li>
             <NavLink
               className={({ isActive }) =>

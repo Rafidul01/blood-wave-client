@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 const CreateDonationRequest = () => {
   const { user } = useAuth();
   const {
@@ -12,6 +12,7 @@ const CreateDonationRequest = () => {
     handleSubmit,
     watch,
     reset,
+    formState: { errors },
   } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosPrivate = useAxiosPrivate();
@@ -58,7 +59,13 @@ const CreateDonationRequest = () => {
     axiosPrivate.post("/requests", requestData).then((res) => {
       if (res.data.acknowledged) {
         reset();
-        toast.success("Request sent successfully");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Request Submitted Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     });
 
@@ -104,11 +111,16 @@ const CreateDonationRequest = () => {
             <span className="label-text">Recipient Name</span>
           </label>
           <input
-            {...register("recipientName")}
+            {...register("recipientName", { required: true })}
             type="text"
             placeholder="Recipient name"
             className="input input-bordered"
           />
+
+          {errors.recipientName && (
+            <span className="text-red-500">Recipient name is required</span>
+          )}
+
         </div>
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           <div className="form-control md:w-1/2">
@@ -127,6 +139,10 @@ const CreateDonationRequest = () => {
                 </option>
               ))}
             </select>
+
+            {errors.district && (
+              <span className="text-red-500">District is required</span>
+            )}
           </div>
           <div className="form-control md:w-1/2">
             <label className="label">
@@ -148,6 +164,10 @@ const CreateDonationRequest = () => {
                 </option>
               ))}
             </select>
+
+            {errors.upazila && (  
+              <span className="text-red-500">Upazila is required</span> 
+            )}
           </div>
         </div>
         {/* hospital info */}
@@ -156,22 +176,30 @@ const CreateDonationRequest = () => {
             <span className="label-text">Hospital Name</span>
           </label>
           <input
-            {...register("hospitalName")}
+            {...register("hospitalName", { required: true })}
             type="text"
             placeholder="Hospital name"
             className="input input-bordered"
           />
+
+          {errors.hospitalName && (
+            <span className="text-red-500">Hospital name is required</span>
+          )}
         </div>
         <div className="form-control ">
           <label className="label">
             <span className="label-text">Full Address</span>
           </label>
           <input
-            {...register("fullAddress")}
+            {...register("fullAddress", { required: true })}
             type="text"
             placeholder="Full address of the hospital"
             className="input input-bordered"
           />
+
+          {errors.fullAddress && (
+            <span className="text-red-500">Full address is required</span>
+          )}
         </div>
 
         <div className="flex flex-col md:flex-row justify-between gap-4 ">
@@ -180,22 +208,30 @@ const CreateDonationRequest = () => {
               <span className="label-text">Date</span>
             </label>
             <input
-              {...register("date")}
+              {...register("date", { required: true })}
               type="date"
               placeholder="Full address of the hospital"
               className="input input-bordered"
             />
+            
+            {errors.date && (
+              <span className="text-red-500">Date is required</span>
+            )}
           </div>
           <div className="form-control md:w-1/2">
             <label className="label">
               <span className="label-text">time</span>
             </label>
             <input
-              {...register("time")}
+              {...register("time", { required: true })}
               type="time"
               placeholder="Full address of the hospital"
               className="input input-bordered"
             />
+
+            {errors.time && (
+              <span className="text-red-500">time is required</span>
+            )}
           </div>
         </div>
 
@@ -208,6 +244,10 @@ const CreateDonationRequest = () => {
             className="textarea textarea-bordered h-24"
             placeholder="Write your request message  "
           ></textarea>
+
+          {errors.requestMessage && (
+            <span className="text-red-500">Request message is required</span>
+          )}
           
         </label>
 
