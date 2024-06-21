@@ -64,6 +64,18 @@ const DashboardLayout = () => {
               Home
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "border-b-4 bg-transparent  border-white text-white font-bold "
+                  : ""
+              }
+              to="/dashboard/create-donation-request"
+            >
+              Create Donation Request
+            </NavLink>
+          </li>
           
         </ul>
       </div>
