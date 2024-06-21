@@ -11,6 +11,7 @@ import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import MyDonationRequest from "../pages/MyDonationRequest/MyDonationRequest";
 import DonationRequestDetails from "../pages/DonationRequestDetails/DonationRequestDetails";
 import DonationRequestEdit from "../pages/DonationRequestEdit/DonationRequestEdit";
+import AllUsers from "../pages/AllUsers/AllUsers";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,11 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "all-users",
+        element: <PrivateRoute> <AllUsers /> </PrivateRoute>,
+
+      }
     ],
   },
 ]);
