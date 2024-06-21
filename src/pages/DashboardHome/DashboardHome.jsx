@@ -81,7 +81,7 @@ const DashboardHome = () => {
                         <button className="btn btn-sm text-error bg-transparent border-none shadow-none"><FaTrash></FaTrash></button>
                       </td>
                       <td>
-                        <Link to={`/request/${donorRequest._id}`} className="btn btn-sm bg-error text-white "><CiViewList></CiViewList></Link>
+                        <Link to={`/donation-request-details/${donorRequest._id}`} className="btn btn-sm bg-error text-white "><CiViewList></CiViewList></Link>
                       </td>
                     </tr>
                   ))

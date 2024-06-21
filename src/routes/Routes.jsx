@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import CreateDonationRequest from "../pages/CreateDonationRequest/CreateDonationRequest";
 import DashboardHome from "../pages/DashboardHome/DashboardHome";
 import MyDonationRequest from "../pages/MyDonationRequest/MyDonationRequest";
+import DonationRequestDetails from "../pages/DonationRequestDetails/DonationRequestDetails";
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             path: "/login",
             element: <Login/>
         },
+        {
+           path: "/donation-request-details/:id",
+           element: <DonationRequestDetails/>
+        }
 
     ]
   },

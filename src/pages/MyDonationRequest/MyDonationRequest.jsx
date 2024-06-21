@@ -5,6 +5,8 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { CiViewList } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { TiTick } from "react-icons/ti";
+import { ImCancelCircle } from "react-icons/im";
 
 const MyDonationRequest = () => {
   const { user } = useAuth();
@@ -83,11 +85,18 @@ const MyDonationRequest = () => {
                         : donorRequest.status === "inprogress"
                         ? "text-info"
                         : ""
-                    }`}
+                    } uppercase font-bold`}
                   >
                     {donorRequest.status}
+                    {donorRequest.status === "pending" ? " (N/A)" : <>
+                      <button><TiTick></TiTick></button> 
+                      <button><ImCancelCircle /></button>
+                    </>}
                   </td>
-                  <td>{donorRequest.donorInformation || "N/A"}</td>
+                  <td>  {donorRequest.status === "pending" ? "N/A" : <>
+                    Name: {donorRequest.donorName} <br />
+                    Email: {donorRequest.donorEmail}
+                  </>}</td>
                   <td>
                     <button className="btn btn-sm bg-error text-white">
                       {" "}
@@ -101,7 +110,7 @@ const MyDonationRequest = () => {
                   </td>
                   <td>
                     <Link
-                      to={`/request/${donorRequest._id}`}
+                      to={`/donation-request-details/${donorRequest._id}`}
                       className="btn btn-sm bg-error text-white "
                     >
                       <CiViewList></CiViewList>
