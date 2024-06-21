@@ -4,15 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { toast } from "react-toastify";
 const CreateDonationRequest = () => {
   const { user } = useAuth();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
   } = useForm();
   const axiosPublic = useAxiosPublic();
-  const axiosProivate = useAxiosPrivate();
+  const axiosPrivate = useAxiosPrivate();
   const { data: districts = [] } = useQuery({
     queryKey: ["districts"],
     queryFn: async () => {
@@ -33,10 +35,34 @@ const CreateDonationRequest = () => {
   useEffect(() => {
     console.log(watch("district").split(",")[0]);
     refetch();
-  }, [watch("district")]);
+  }, [watch("district"), refetch, watch]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    const requestData = {
+      requesterName: user?.displayName,
+      requesterEmail: user?.email,
+      recipientName: data.recipientName,
+      district: data.district.split(",")[1],
+      hospitalName: data.hospitalName,
+      fullAddress: data.fullAddress,
+      upazila: data.upazila,
+      date: data.date,
+      time: data.time,
+      requestMessage: data.requestMessage,
+      status: "pending",
+
+    }
+
+
+    axiosPrivate.post("/requests", requestData).then((res) => {
+      if (res.data.acknowledged) {
+        reset();
+        toast.success("Request sent successfully");
+      }
+    });
+
+    console.log(requestData);
 
   };
   return (
@@ -80,8 +106,7 @@ const CreateDonationRequest = () => {
           <input
             {...register("recipientName")}
             type="text"
-            defaultValue={"recipientName"}
-            placeholder="recipient"
+            placeholder="Recipient name"
             className="input input-bordered"
           />
         </div>
