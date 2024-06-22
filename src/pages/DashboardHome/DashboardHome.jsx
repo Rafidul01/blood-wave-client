@@ -90,7 +90,7 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {currentUser.role === "donor" && (
+      {currentUser.role === "donor" && donorRequests.length > 0 && (
         <div className="">
           <h1 className=" mt-8 md:text-xl text-blood border-t-2 border-b-2 border-blood text-center">
             Your Recent Donations

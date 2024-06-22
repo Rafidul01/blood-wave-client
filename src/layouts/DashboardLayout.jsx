@@ -37,6 +37,18 @@ const DashboardLayout = () => {
 
   const adminLink = (
     <>
+          <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/profile"
+        >
+          profile
+        </NavLink>
+      </li>
       <li>
         <NavLink
           className={({ isActive }) =>
@@ -47,6 +59,18 @@ const DashboardLayout = () => {
           to="/dashboard/all-users"
         >
           All Users
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/all-blood-donation-request"
+        >
+          All Blood Donation Request
         </NavLink>
       </li>
     </>
