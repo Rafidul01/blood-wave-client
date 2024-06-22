@@ -9,6 +9,7 @@ import { ImCancelCircle } from "react-icons/im";
 import Swal from "sweetalert2";
 import useAdmin from "../../hooks/useAdmin";
 import useVolunteer from "../../hooks/useVolunteer";
+import { ClimbingBoxLoader } from "react-spinners";
 const AllDonationRequest = () => {
   const axiosPrivate = useAxiosPrivate();
   const [filter, setFilter] = useState("");
@@ -82,7 +83,9 @@ const AllDonationRequest = () => {
   };
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center  items-center min-h-[calc(100vh-260.8px)]'>
+            <ClimbingBoxLoader color="#730000" />
+        </div>
   }
   if (!isAdmin && !isVolunteer) {
     return (

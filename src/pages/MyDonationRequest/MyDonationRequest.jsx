@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCancelCircle } from "react-icons/im";
 import Swal from "sweetalert2";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const MyDonationRequest = () => {
   const { user } = useAuth();
@@ -69,7 +70,9 @@ const MyDonationRequest = () => {
   }
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center  items-center min-h-[calc(100vh-260.8px)]'>
+            <ClimbingBoxLoader color="#730000" />
+        </div>
   }
   return (
     <div className="font-lato  text-center ">

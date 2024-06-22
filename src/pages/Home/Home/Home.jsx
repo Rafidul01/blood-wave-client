@@ -1,10 +1,12 @@
 import Banner from "../Bnnner/Banner";
+import ContactUs from "../ContactUs/ContactUs";
 
 const Home = () => {
     return (
-        <div>
+        <div className="container mx-auto">
 
             <Banner/>
+            <ContactUs/>
         </div>
     );
 };

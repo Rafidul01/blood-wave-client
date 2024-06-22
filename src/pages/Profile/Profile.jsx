@@ -7,6 +7,7 @@ import { FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { updateProfile } from "firebase/auth";
 import axios from "axios";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -158,7 +159,9 @@ const Profile = () => {
   };
 
   if (currentUserPending || dDistPending || upazilasPending) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center  items-center min-h-[calc(100vh-260.8px)]'>
+            <ClimbingBoxLoader color="#730000" />
+        </div>
   } else {
     dDistRefetch();
     refetch();

@@ -6,7 +6,6 @@ const Blogs = () => {
     const axiosPublic = useAxiosPublic();
     const {
         data: blogs,
-        refetch,
       } = useQuery({
         queryKey: ["blogs"],
         queryFn: async () => {

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import parser from "html-react-parser";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const BlogDetails = () => {
     const {id} = useParams();
@@ -14,7 +15,9 @@ const BlogDetails = () => {
         }
     })
     if(isPending){
-        return <h1>Loading...</h1>
+        return <div className='flex justify-center  items-center min-h-[calc(100vh-260.8px)]'>
+            <ClimbingBoxLoader color="#730000" />
+        </div>
 
     }
     const {content, title, thumbnailImage } = blog;

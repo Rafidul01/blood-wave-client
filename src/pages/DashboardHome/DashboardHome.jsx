@@ -9,6 +9,7 @@ import { TiTick } from "react-icons/ti";
 import { ImCancelCircle } from "react-icons/im";
 import { BiSolidDonateBlood } from "react-icons/bi";
 import { RiRefund2Fill } from "react-icons/ri";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -78,7 +79,9 @@ const DashboardHome = () => {
   };
 
   if (isPending || statsPending) {
-    return <h1>Loading...</h1>;
+    return <div className='flex justify-center  items-center min-h-[calc(100vh-260.8px)]'>
+            <ClimbingBoxLoader color="#730000" />
+        </div>
   }
   return (
     <div>
