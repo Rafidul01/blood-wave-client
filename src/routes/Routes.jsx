@@ -14,6 +14,7 @@ import DonationRequestEdit from "../pages/DonationRequestEdit/DonationRequestEdi
 import AllUsers from "../pages/AllUsers/AllUsers";
 import AllDonationRequest from "../pages/AllDonationRequest/AllDonationRequest";
 import ContentManagement from "../pages/ContentManagement/ContentManagement";
+import AddBlog from "../pages/AddBlog/AddBlog";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,11 @@ const router = createBrowserRouter([
       {
         path: "content-management",
         element: <PrivateRoute> <ContentManagement /> </PrivateRoute>,
+      },
+      {
+        path: "add-blog",
+        element: <PrivateRoute> <AddBlog /> </PrivateRoute>,
+
       }
     ],
   },
