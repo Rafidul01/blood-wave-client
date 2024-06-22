@@ -17,6 +17,8 @@ import ContentManagement from "../pages/ContentManagement/ContentManagement";
 import AddBlog from "../pages/AddBlog/AddBlog";
 import SearchDonor from "../pages/SearchDonor/SearchDonor";
 import BloodDonationRequests from "../pages/BloodDonationRequests/BloodDonationRequests";
+import Blogs from "../pages/Blogs/Blogs";
+import BlogDetails from "../pages/Blogs/BlogDetails";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,15 @@ const router = createBrowserRouter([
       {
         path: "/blood-donation-request",
         element: <BloodDonationRequests></BloodDonationRequests>,
+
+      },
+      {
+        path: "/blog",
+        element: <Blogs></Blogs>,
+      },
+      {
+        path: "/blogs/:id",
+        element: <BlogDetails></BlogDetails>,
 
       }
      
