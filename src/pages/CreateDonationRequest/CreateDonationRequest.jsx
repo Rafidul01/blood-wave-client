@@ -33,12 +33,31 @@ const CreateDonationRequest = () => {
     },
   });
 
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/users?email=${user?.email}`);
+      return res.data;
+    },
+  }); 
+
   useEffect(() => {
     console.log(watch("district").split(",")[0]);
     refetch();
   }, [watch("district"), refetch, watch]);
 
+
   const onSubmit = (data) => {
+
+    if(currentUser?.status === "blocked"){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You have been blocked by admin!",
+        footer: '<a href="#">Why do I have this issue?</a>'
+      });
+      return;
+    }
     // console.log(data);
     const requestData = {
       requesterName: user?.displayName,
