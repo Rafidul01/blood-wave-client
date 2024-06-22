@@ -1,3 +1,4 @@
+import BlogSection from "../BlogSection/BlogSection";
 import Banner from "../Bnnner/Banner";
 import ContactUs from "../ContactUs/ContactUs";
 
@@ -6,6 +7,7 @@ const Home = () => {
         <div className="container mx-auto">
 
             <Banner/>
+            <BlogSection></BlogSection>
             <ContactUs/>
             
         </div>
