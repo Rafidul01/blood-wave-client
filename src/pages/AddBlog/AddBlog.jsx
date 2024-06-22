@@ -3,12 +3,15 @@ import { useState, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
 import parse from "html-react-parser";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Swal from "sweetalert2";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddBlog = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
+  const axiosPrivate = useAxiosPrivate();
   const {
     register,
     handleSubmit,
@@ -23,6 +26,31 @@ const AddBlog = () => {
         "Content-Type": "multipart/form-data",
       },
     });
+
+    const blog = {
+      title: data.title,
+      thumbnailImage: res.data.data.display_url,
+      content: content,
+    };
+
+    axiosPrivate
+      .post("/blogs", blog)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.acknowledged) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Blog Added Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     // setThumbnailImage(res.data.data.display_url);
   };
 
@@ -32,7 +60,7 @@ const AddBlog = () => {
     <div className="card w-full  bg-base-100 shadow-xl">
 
       <div className="card-body ">
-        <h2 className="card-title text-center ">Whats on Your Mind?..</h2>
+        <h2 className="text-3xl text-center ">Whats on Your Mind?..</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="  space-y-7">
           <label className="form-control w-full ">
@@ -67,7 +95,7 @@ const AddBlog = () => {
             onChange={(newContent) => setContent(newContent)}
             className="w-full h-[100vh]"
           />
-          <button type="submit" className="btn bg-blood text-white">
+          <button type="submit" className="btn bg-blood text-white w-full">
             Upload
           </button>
         </form>
