@@ -7,70 +7,90 @@ import { useEffect, useState } from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCancelCircle } from "react-icons/im";
 import Swal from "sweetalert2";
+import useAdmin from "../../hooks/useAdmin";
+import useVolunteer from "../../hooks/useVolunteer";
 const AllDonationRequest = () => {
-    const axiosPrivate = useAxiosPrivate();
-    const [filter, setFilter] = useState("");
-  
-    const { data: donorRequests = [], isPending, refetch } = useQuery({
-      queryKey: ["donorRequests"],
-      queryFn: async () => {
-        const res = await axiosPrivate.get(`/all-requests?status=${filter}`);
-        return res.data;
-      },
-    });
-  
-    useEffect(() => {
-      refetch();
-    }, [filter, refetch]);
-  
-    const handleFilter = (e) => {
-  
-      const status = e.target.value;
-      setFilter(status);
-      
+  const axiosPrivate = useAxiosPrivate();
+  const [filter, setFilter] = useState("");
+
+  const [isAdmin] = useAdmin();
+  const [isVolunteer] = useVolunteer();
+
+  const {
+    data: donorRequests = [],
+    isPending,
+    refetch,
+  } = useQuery({
+    queryKey: ["donorRequests"],
+    queryFn: async () => {
+      const res = await axiosPrivate.get(`/all-requests?status=${filter}`);
+      return res.data;
+    },
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [filter, refetch]);
+
+  const handleFilter = (e) => {
+    const status = e.target.value;
+    setFilter(status);
+  };
+
+  const handleStatus = (id, status) => {
+    const donorInfo = {
+      status,
     };
-  
-    const handleStatus = (id, status) => {
-      const donorInfo = {
-        status
+
+    axiosPrivate.patch(`/request/${id}`, donorInfo).then((res) => {
+      if (res.data.acknowledged) {
+        refetch();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Donation status updated Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-  
-      axiosPrivate.patch(`/request/${id}`, donorInfo).then((res) => {
-        if (res.data.acknowledged) {
-          refetch();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Donation status updated Successfully",
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }
-      })
-  
-    }
-  
-    const handleDelete = (id) => {
-      axiosPrivate.delete(`/request/${id}`).then((res) => {
-        if (res.data.acknowledged) {
-          refetch();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Donation deleted Successfully",
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }
-      })
-    }
-  
-    if (isPending) {
-      return <div>Loading...</div>;
-    }
-    return (
-        <div className="font-lato  text-center ">
-      <select onChange={handleFilter} defaultValue={0} className="select select-secondary focus:outline-blood  focus:border-blood w-full max-w-xs uppercase my-4 md:my-8 border-blood text-blood">
+    });
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPrivate.delete(`/request/${id}`).then((res) => {
+          if (res.data.acknowledged) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Donation deleted Successfully",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div className="font-lato  text-center ">
+      <select
+        onChange={handleFilter}
+        defaultValue={0}
+        className="select select-secondary focus:outline-blood  focus:border-blood w-full max-w-xs uppercase my-4 md:my-8 border-blood text-blood"
+      >
         <option disabled value={0}>
           Filter By Status
         </option>
@@ -78,7 +98,6 @@ const AllDonationRequest = () => {
         <option>inprogress</option>
         <option>done</option>
         <option>canceled</option>
-       
       </select>
 
       <div className="overflow-x-auto">
@@ -91,10 +110,16 @@ const AllDonationRequest = () => {
               <th>Donation Date</th>
               <th>Donation Time</th>
               <th>Donation Status</th>
-              <th>Done /<br /> Cencle</th>
+              <th>
+                Done /<br /> Cencle
+              </th>
               <th>Donor Information</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              {isAdmin && (
+                <>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </>
+              )}
               <th>View</th>
             </tr>
           </thead>
@@ -122,29 +147,64 @@ const AllDonationRequest = () => {
                     } uppercase font-bold`}
                   >
                     {donorRequest.status}
-                    
                   </td>
                   <td className="text-center">
-                    {donorRequest.status === "inprogress" ? <>
-                    <button onClick={() => handleStatus(donorRequest._id, "done")} className="text-success text-xl"> <TiTick></TiTick> </button> <br />
-                    <button onClick={() => handleStatus(donorRequest._id, "canceled")} className="text-error text-xl"> <ImCancelCircle></ImCancelCircle> </button>
-                    </> : ""}
+                    {donorRequest.status === "inprogress" ? (
+                      <>
+                        <button
+                          onClick={() => handleStatus(donorRequest._id, "done")}
+                          className="text-success text-xl"
+                        >
+                          {" "}
+                          <TiTick></TiTick>{" "}
+                        </button>{" "}
+                        <br />
+                        <button
+                          onClick={() =>
+                            handleStatus(donorRequest._id, "canceled")
+                          }
+                          className="text-error text-xl"
+                        >
+                          {" "}
+                          <ImCancelCircle></ImCancelCircle>{" "}
+                        </button>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </td>
-                  <td>  {donorRequest.status === "pending" ? "N/A" : <>
-                    Name: {donorRequest.donorName} <br />
-                    Email: {donorRequest.donorEmail}
-                  </>}</td>
                   <td>
-                    <Link to={`/dashboard/donation-request-edit/${donorRequest._id}`}  className="btn btn-sm bg-error text-white">
-                      {" "}
-                      <FaEdit></FaEdit>
-                    </Link>
+                    {" "}
+                    {donorRequest.status === "pending" ? (
+                      "N/A"
+                    ) : (
+                      <>
+                        Name: {donorRequest.donorName} <br />
+                        Email: {donorRequest.donorEmail}
+                      </>
+                    )}
                   </td>
-                  <td>
-                    <button onClick={() => handleDelete(donorRequest._id)} className="btn btn-sm text-error bg-transparent border-none shadow-none">
-                      <FaTrash></FaTrash>
-                    </button>
-                  </td>
+                  {isAdmin && (
+                    <>
+                      <td>
+                        <Link
+                          to={`/dashboard/donation-request-edit/${donorRequest._id}`}
+                          className="btn btn-sm bg-error text-white"
+                        >
+                          {" "}
+                          <FaEdit></FaEdit>
+                        </Link>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleDelete(donorRequest._id)}
+                          className="btn btn-sm text-error bg-transparent border-none shadow-none"
+                        >
+                          <FaTrash></FaTrash>
+                        </button>
+                      </td>
+                    </>
+                  )}
                   <td>
                     <Link
                       to={`/donation-request-details/${donorRequest._id}`}
@@ -159,7 +219,7 @@ const AllDonationRequest = () => {
         </table>
       </div>
     </div>
-    );
+  );
 };
 
 export default AllDonationRequest;

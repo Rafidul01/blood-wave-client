@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef} from "react";
 import { useForm } from "react-hook-form";
 import JoditEditor from "jodit-react";
-import parse from "html-react-parser";
+// import parse from "html-react-parser";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 
@@ -15,7 +15,6 @@ const AddBlog = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
@@ -31,6 +30,7 @@ const AddBlog = () => {
       title: data.title,
       thumbnailImage: res.data.data.display_url,
       content: content,
+      status: "draft",
     };
 
     axiosPrivate
