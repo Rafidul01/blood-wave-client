@@ -84,6 +84,13 @@ const AllDonationRequest = () => {
   if (isPending) {
     return <div>Loading...</div>;
   }
+  if (!isAdmin && !isVolunteer) {
+    return (
+      <div className="text-center text-3xl text-blood font-bold mt-10">
+        You are not authorized to access this page please login with admin or volunteer 
+      </div>
+    );
+  }
   return (
     <div className="font-lato  text-center ">
       <select

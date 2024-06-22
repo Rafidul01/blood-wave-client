@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/image/logo.png";
 import useAdmin from "../hooks/useAdmin";
 import useVolunteer from "../hooks/useVolunteer";
+import { FaHome, FaUser } from "react-icons/fa";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { MdBloodtype, MdContentPaste } from "react-icons/md";
 
 const DashboardLayout = () => {
 
@@ -22,7 +25,7 @@ const DashboardLayout = () => {
           }
           to="/dashboard/create-donation-request"
         >
-          Create Donation Request
+         <MdBloodtype/> Create Donation Request
         </NavLink>
       </li>
     </>
@@ -40,7 +43,7 @@ const DashboardLayout = () => {
           }
           to="/dashboard/all-users"
         >
-          All Users
+          <FaPeopleGroup/>All Users
         </NavLink>
       </li>
       <li>
@@ -52,7 +55,7 @@ const DashboardLayout = () => {
           }
           to="/dashboard/all-blood-donation-request"
         >
-          All Blood Donation Request
+          <MdBloodtype />All Blood Donation Request
         </NavLink>
       </li>
       <li>
@@ -64,7 +67,37 @@ const DashboardLayout = () => {
           }
           to="/dashboard/content-management"
         >
-          Content Management
+          <MdContentPaste />Content Management
+          
+        </NavLink>
+      </li>
+    </>
+  );
+  const volunteerLink = (
+    <>
+          
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/all-blood-donation-request"
+        >
+          <MdBloodtype />All Blood Donation Request
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/content-management"
+        >
+          <MdContentPaste />Content Management
           
         </NavLink>
       </li>
@@ -98,7 +131,7 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full bg-blood text-base-content">
+        <ul onClick={handleSidebar} className="menu p-4 w-80 min-h-full bg-blood text-base-content text-[#acacac] ">
           {/* Sidebar content here */}
           <Link to="/" className="btn m-0 p-0 mb-8">
             <img src={logo} className="w-10" alt="" />
@@ -108,10 +141,10 @@ const DashboardLayout = () => {
           </Link>
 
           <button
-            className=" lg:hidden btn btn-primary"
+            className=" lg:hidden btn btn-sm btn-circle absolute right-2 top-20 z-50 "
             onClick={handleSidebar}
           >
-            X
+            x
           </button>
           <li>
             <NavLink
@@ -123,7 +156,7 @@ const DashboardLayout = () => {
               to="/dashboard"
               end
             >
-              Dashboard Home
+              <FaHome></FaHome>Dashboard Home
             </NavLink>
           </li>
           <li>
@@ -135,12 +168,12 @@ const DashboardLayout = () => {
           }
           to="/dashboard/profile"
         >
-          profile
+          <FaUser></FaUser>profile
         </NavLink>
       </li>
 
       {
-        isAdmin || isVolunteer ? adminLink : donorLink
+        isAdmin ? adminLink : isVolunteer ? volunteerLink : donorLink
       }
 
           {/* {donorLink} */}
@@ -160,7 +193,7 @@ const DashboardLayout = () => {
             to="/"
             end
           >
-              Home
+             <FaHome></FaHome>Home
           </NavLink>
 
          </li>

@@ -209,7 +209,7 @@ const DashboardHome = () => {
         </div>
       )}
 
-      {currentUser.role === "admin" || currentUser.role === "volunteer" && (
+      {(currentUser.role === "admin" || currentUser.role === "volunteer") && (
         <div className="flex justify-center items-center">
           <div className="stats stats-vertical lg:stats-horizontal shadow">
             <div className="stat">

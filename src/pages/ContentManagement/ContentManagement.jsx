@@ -55,6 +55,34 @@ const ContentManagement = () => {
     
   };
 
+  const handleDelete = (id) => {
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            axiosPrivate.delete(`/blogs/${id}`).then((res) => {
+                if (res.data.acknowledged) {
+                  refetch();
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Blog deleted Successfully",
+                    icon: "success"
+                  });
+                }
+              });
+         
+        }
+      });
+    
+  };
+
   console.log(blogs);
 
   return (
@@ -88,6 +116,7 @@ const ContentManagement = () => {
             key={blog._id}
             blog={blog}
             isAdmin={isAdmin}
+            handleDelete={handleDelete}
             handleStatus={handleStatus}
           />
         ))}
