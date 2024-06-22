@@ -20,11 +20,13 @@ import BloodDonationRequests from "../pages/BloodDonationRequests/BloodDonationR
 import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../pages/Blogs/BlogDetails";
 import AdminRoute from "./AdminRoute";
+import Error from "../pages/Shared/Error/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <Error/>,
     children: [
       {
         path: "/",
