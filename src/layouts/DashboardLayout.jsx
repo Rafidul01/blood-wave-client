@@ -3,8 +3,11 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/image/logo.png";
+import useAdmin from "../hooks/useAdmin";
 
 const DashboardLayout = () => {
+
+  const [isAdmin] = useAdmin();
   const donorLink = (
     <>
       <li>
@@ -37,18 +40,7 @@ const DashboardLayout = () => {
 
   const adminLink = (
     <>
-          <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "border-b-4 bg-transparent  border-white text-white font-bold "
-              : ""
-          }
-          to="/dashboard/profile"
-        >
-          profile
-        </NavLink>
-      </li>
+          
       <li>
         <NavLink
           className={({ isActive }) =>
@@ -131,6 +123,18 @@ const DashboardLayout = () => {
               Dashboard Home
             </NavLink>
           </li>
+          <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/profile"
+        >
+          profile
+        </NavLink>
+      </li>
 
           {donorLink}
           <hr />
