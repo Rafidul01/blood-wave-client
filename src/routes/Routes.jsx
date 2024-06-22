@@ -19,6 +19,7 @@ import SearchDonor from "../pages/SearchDonor/SearchDonor";
 import BloodDonationRequests from "../pages/BloodDonationRequests/BloodDonationRequests";
 import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../pages/Blogs/BlogDetails";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -47,12 +48,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/search-donor",
-        element: <SearchDonor></SearchDonor>
+        element: <SearchDonor></SearchDonor>,
       },
       {
         path: "/blood-donation-request",
         element: <BloodDonationRequests></BloodDonationRequests>,
-
       },
       {
         path: "/blog",
@@ -61,9 +61,7 @@ const router = createBrowserRouter([
       {
         path: "/blogs/:id",
         element: <BlogDetails></BlogDetails>,
-
-      }
-     
+      },
     ],
   },
   {
@@ -106,28 +104,49 @@ const router = createBrowserRouter([
       {
         path: "donation-request-edit/:id",
         element: (
-          <PrivateRoute>
-            <DonationRequestEdit />
-          </PrivateRoute>
+          <AdminRoute>
+            <PrivateRoute>
+              <DonationRequestEdit />
+            </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "all-users",
-        element: <PrivateRoute> <AllUsers /> </PrivateRoute>,
-
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AllUsers />{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "all-blood-donation-request",
-        element: <PrivateRoute> <AllDonationRequest /> </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AllDonationRequest />{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "content-management",
-        element: <PrivateRoute> <ContentManagement /> </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <ContentManagement />{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "add-blog",
-        element: <PrivateRoute> <AddBlog /> </PrivateRoute>,
-      }
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AddBlog />{" "}
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
