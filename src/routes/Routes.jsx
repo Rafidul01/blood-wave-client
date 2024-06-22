@@ -13,6 +13,7 @@ import DonationRequestDetails from "../pages/DonationRequestDetails/DonationRequ
 import DonationRequestEdit from "../pages/DonationRequestEdit/DonationRequestEdit";
 import AllUsers from "../pages/AllUsers/AllUsers";
 import AllDonationRequest from "../pages/AllDonationRequest/AllDonationRequest";
+import ContentManagement from "../pages/ContentManagement/ContentManagement";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "all-blood-donation-request",
         element: <PrivateRoute> <AllDonationRequest /> </PrivateRoute>,
+      },
+      {
+        path: "content-management",
+        element: <PrivateRoute> <ContentManagement /> </PrivateRoute>,
       }
     ],
   },

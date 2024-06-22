@@ -4,24 +4,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/image/logo.png";
 import useAdmin from "../hooks/useAdmin";
+import useVolunteer from "../hooks/useVolunteer";
 
 const DashboardLayout = () => {
 
   const [isAdmin] = useAdmin();
+  const [isVolunteer] = useVolunteer();
   const donorLink = (
     <>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive
-              ? "border-b-4 bg-transparent  border-white text-white font-bold "
-              : ""
-          }
-          to="/dashboard/profile"
-        >
-          profile
-        </NavLink>
-      </li>
 
       <li>
         <NavLink
@@ -63,6 +53,19 @@ const DashboardLayout = () => {
           to="/dashboard/all-blood-donation-request"
         >
           All Blood Donation Request
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-4 bg-transparent  border-white text-white font-bold "
+              : ""
+          }
+          to="/dashboard/content-management"
+        >
+          Content Management
+          
         </NavLink>
       </li>
     </>
@@ -136,10 +139,14 @@ const DashboardLayout = () => {
         </NavLink>
       </li>
 
-          {donorLink}
-          <hr />
+      {
+        isAdmin || isVolunteer ? adminLink : donorLink
+      }
 
-          {adminLink}
+          {/* {donorLink} */}
+          {/* <hr />
+
+          {adminLink} */}
 
           <hr className="my-8" />
 
