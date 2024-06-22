@@ -70,7 +70,7 @@ const Navbar = () => {
               ? "border-b-4 bg-transparent  border-blood text-blood font-bold "
               : ""
           }
-          to="/donationRequests"
+          to="/blood-donation-request"
         >
           Donation Requests
         </NavLink>

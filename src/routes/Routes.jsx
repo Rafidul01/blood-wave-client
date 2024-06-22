@@ -15,6 +15,8 @@ import AllUsers from "../pages/AllUsers/AllUsers";
 import AllDonationRequest from "../pages/AllDonationRequest/AllDonationRequest";
 import ContentManagement from "../pages/ContentManagement/ContentManagement";
 import AddBlog from "../pages/AddBlog/AddBlog";
+import SearchDonor from "../pages/SearchDonor/SearchDonor";
+import BloodDonationRequests from "../pages/BloodDonationRequests/BloodDonationRequests";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,16 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/search-donor",
+        element: <SearchDonor></SearchDonor>
+      },
+      {
+        path: "/blood-donation-request",
+        element: <BloodDonationRequests></BloodDonationRequests>,
+
+      }
+     
     ],
   },
   {
@@ -104,7 +116,6 @@ const router = createBrowserRouter([
       {
         path: "add-blog",
         element: <PrivateRoute> <AddBlog /> </PrivateRoute>,
-
       }
     ],
   },

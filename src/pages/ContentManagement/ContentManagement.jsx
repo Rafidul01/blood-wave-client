@@ -13,7 +13,6 @@ const ContentManagement = () => {
 
   const {
     data: blogs,
-    isPending,
     refetch,
   } = useQuery({
     queryKey: ["blogs"],
