@@ -19,8 +19,9 @@ import SearchDonor from "../pages/SearchDonor/SearchDonor";
 import BloodDonationRequests from "../pages/BloodDonationRequests/BloodDonationRequests";
 import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../pages/Blogs/BlogDetails";
-import AdminRoute from "./AdminRoute";
 import Error from "../pages/Shared/Error/Error";
+import Funding from "../pages/Funding/Funding";
+import Payment from "../pages/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         path: "/blogs/:id",
         element: <BlogDetails></BlogDetails>,
       },
+      {
+        path: "/fundings",
+        element: <PrivateRoute><Funding/></PrivateRoute>
+      },
+      {
+        path: "/funding",
+        element: <PrivateRoute><Payment/></PrivateRoute>
+      }
     ],
   },
   {
@@ -106,11 +115,11 @@ const router = createBrowserRouter([
       {
         path: "donation-request-edit/:id",
         element: (
-          <AdminRoute>
+          
             <PrivateRoute>
               <DonationRequestEdit />
             </PrivateRoute>
-          </AdminRoute>
+          
         ),
       },
       {

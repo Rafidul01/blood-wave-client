@@ -26,7 +26,7 @@ const BloodDonationRequests = () => {
   }
 
   return (
-    <div className="mt-20 container mx-auto">
+    <div className="mt-20 flex justify-center items-center container mx-auto min-h-[calc(100vh-299px)]">
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}

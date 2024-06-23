@@ -223,7 +223,7 @@ const DashboardHome = () => {
 
             <div className="stat">
               <div className="stat-title text-center text-blood">Total Funding</div>
-              <div className="stat-value flex items-center justify-center gap-2"><RiRefund2Fill className="text-blood" /> 4,200</div>
+              <div className="stat-value flex items-center justify-center gap-2"><RiRefund2Fill className="text-blood" /> {stats.funding}</div>
               
             </div>
 
